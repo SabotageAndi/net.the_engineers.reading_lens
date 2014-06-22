@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,6 +20,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
     private int _height;
     private int _width;
     private boolean _cameraRunning;
+    private Button _toogle_negative;
 
     /**
      * Called when the activity is first created.
@@ -32,8 +34,34 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
 
         _image = (SurfaceView)findViewById(R.id.image);
         _image.addOnLayoutChangeListener(this);
+        _image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _camera.autoFocus(new Camera.AutoFocusCallback() {
+                    @Override
+                    public void onAutoFocus(boolean success, Camera camera) {
+                        
+                    }
+                });
+            }
+        });
         _surfaceHolder =  _image.getHolder();
         _surfaceHolder.addCallback(this);
+
+        _toogle_negative =(Button)findViewById(R.id.toogle_negative);
+        _toogle_negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Camera.Parameters parameters = _camera.getParameters();
+
+                if (parameters.getColorEffect().contains(Camera.Parameters.EFFECT_NEGATIVE))
+                    parameters.setColorEffect(Camera.Parameters.EFFECT_NONE);
+                else
+                    parameters.setColorEffect(Camera.Parameters.EFFECT_NEGATIVE);
+
+                _camera.setParameters(parameters);
+            }
+        });
     }
 
     private int GetCameraIndex()
@@ -78,9 +106,8 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
         Camera.getCameraInfo(cameraIndex, info);
 
         parameters.setRotation(info.orientation + 90);
-        //List<Camera.Size> previewSizes = parameters.getSupportedPreviewSizes();
-        //parameters.setPreviewSize(_width, _height);
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
+
         _camera.setParameters(parameters);
         _camera.setDisplayOrientation(90);
     }

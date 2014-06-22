@@ -16,9 +16,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_alignParentTop="true">
-        <Button android:layout_width="fill_parent"
+        <Button android:id="@+id/toogle_negative"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Placeholder"/>
+                android:text="Negative Toogle"/>
     </RelativeLayout>
 
     <RelativeLayout android:layout_width="fill_parent"
