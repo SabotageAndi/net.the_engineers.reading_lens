@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-        >
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello World, MainActivity"
-            />
-</LinearLayout>
+              >
+
+    <SurfaceView android:id="@+id/image"
+                 android:layout_width="fill_parent"
+                 android:layout_height="fill_parent"
+                 android:layout_gravity="center"
+                 android:layout_weight="1"/>
+
+
+    <RelativeLayout android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true">
+        <Button android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Placeholder"/>
+    </RelativeLayout>
+
+    <RelativeLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_alignParentBottom="true">
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:text="Placeholder"/>
+    </RelativeLayout>
+</RelativeLayout>
 
