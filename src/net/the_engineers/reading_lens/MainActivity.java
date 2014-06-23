@@ -27,16 +27,13 @@ import android.widget.Button;
 
 import java.io.IOException;
 
-public class MainActivity extends Activity implements SurfaceHolder.Callback, View.OnLayoutChangeListener {
+public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
     public static final int ZOOM_STEPS = 10;
     private SurfaceView _image;
 
     private Camera _camera;
     private SurfaceHolder _surfaceHolder;
-
-    private int _height;
-    private int _width;
 
     private boolean _cameraRunning;
 
@@ -72,7 +69,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
         _contrast_plus_button = (Button)findViewById(R.id.contrast_plus);
 
         _image = (SurfaceView)findViewById(R.id.image);
-        _image.addOnLayoutChangeListener(this);
 
         _surfaceHolder =  _image.getHolder();
         _surfaceHolder.addCallback(this);
@@ -206,9 +202,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
 
     private void StartCameraPreview() {
 
-        if (_width <= 0 && _height <= 0)
-            return;
-
         if (_cameraRunning)
             return;
 
@@ -266,11 +259,4 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
 
     }
 
-    @Override
-    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        _width = right - left;
-        _height = bottom - top;
-
-        StartCameraPreview();
-    }
 }
