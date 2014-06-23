@@ -30,14 +30,19 @@ import java.util.List;
 
 public class MainActivity extends Activity implements SurfaceHolder.Callback, View.OnLayoutChangeListener {
 
+    public static final int ZOOM_STEPS = 10;
     SurfaceView _image;
 
-    Camera _camera;
+    private Camera _camera;
     private SurfaceHolder _surfaceHolder;
     private int _height;
     private int _width;
     private boolean _cameraRunning;
     private Button _toogle_negative;
+
+    private Button _zoom_plus_button;
+    private Button _zoom_minus_button;
+    private int _actual_zoom;
 
     /**
      * Called when the activity is first created.
@@ -47,7 +52,29 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+
+        _actual_zoom = 0;
+
         getActionBar().hide();
+
+        _zoom_minus_button = (Button)findViewById(R.id.zoom_minus);
+        _zoom_plus_button = (Button)findViewById(R.id.zoom_plus);
+
+        _zoom_plus_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                setZoom(_actual_zoom + ZOOM_STEPS);
+            }
+        });
+
+        _zoom_minus_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                setZoom(_actual_zoom - ZOOM_STEPS);
+            }
+        });
 
         _image = (SurfaceView)findViewById(R.id.image);
         _image.addOnLayoutChangeListener(this);
@@ -79,6 +106,23 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
                 _camera.setParameters(parameters);
             }
         });
+    }
+
+    private void setZoom(int nextZoom) {
+        if (_camera == null)
+            return;
+
+        Camera.Parameters parameters = _camera.getParameters();
+        if (nextZoom <= 0)
+            return;
+
+        if (nextZoom >= parameters.getMaxZoom())
+            return;
+
+        parameters.setZoom(nextZoom);
+        _camera.setParameters(parameters);
+
+        _actual_zoom = nextZoom;
     }
 
     private int GetCameraIndex()
@@ -118,6 +162,12 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
 
         _camera = Camera.open(cameraIndex);
         Camera.Parameters parameters = _camera.getParameters();
+
+        if (!parameters.isZoomSupported())
+        {
+            _zoom_plus_button.setVisibility(View.GONE);
+            _zoom_minus_button.setVisibility(View.GONE);
+        }
 
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(cameraIndex, info);
