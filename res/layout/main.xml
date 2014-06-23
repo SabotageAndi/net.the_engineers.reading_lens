@@ -34,44 +34,25 @@
                 />
     </LinearLayout>
 
-  <!--
-   <RelativeLayout android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_alignParentBottom="true">
-
-        <Button android:id="@+id/placeholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Placeholder"
-                />
-        <Button android:id="@+id/zoom_minus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:layout_toRightOf="@id/placeholder"
-                />
-        <Button android:id="@+id/zoom_plus"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:layout_toRightOf="@id/zoom_minus"
-                />
-
-    </RelativeLayout>
-    -->
     <LinearLayout android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_alignParentBottom="true"
                     android:weightSum="4">
 
-        <Button android:id="@+id/placeholder"
+        <Button android:id="@+id/contrast_minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Placeholder"
-                android:layout_weight="2"
+                android:text="-"
+                android:layout_weight="1"
                 />
+        <Button android:id="@+id/contrast_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:layout_weight="1"
+                />
+
         <Button android:id="@+id/zoom_minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

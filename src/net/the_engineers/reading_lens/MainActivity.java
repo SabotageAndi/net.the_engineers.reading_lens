@@ -34,15 +34,23 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
 
     private Camera _camera;
     private SurfaceHolder _surfaceHolder;
+
     private int _height;
     private int _width;
+
     private boolean _cameraRunning;
-    private Button _toggle_negative;
+
+    private Button _toggle_negative_button;
+    private Button _toggle_mono_button;
 
     private Button _zoom_plus_button;
     private Button _zoom_minus_button;
-    private Button _toggle_mono;
+
+    private Button _contrast_plus_button;
+    private Button _contrast_minus_button;
+
     private int _actual_zoom;
+    private int _actual_contrast;
 
     /**
      * Called when the activity is first created.
@@ -58,8 +66,10 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
 
         _zoom_minus_button = (Button)findViewById(R.id.zoom_minus);
         _zoom_plus_button = (Button)findViewById(R.id.zoom_plus);
-        _toggle_mono = (Button)findViewById(R.id.toggle_mono);
-        _toggle_negative =(Button)findViewById(R.id.toggle_negative);
+        _toggle_mono_button = (Button)findViewById(R.id.toggle_mono);
+        _toggle_negative_button =(Button)findViewById(R.id.toggle_negative);
+        _contrast_minus_button = (Button)findViewById(R.id.contrast_minus);
+        _contrast_plus_button = (Button)findViewById(R.id.contrast_plus);
 
         _image = (SurfaceView)findViewById(R.id.image);
         _image.addOnLayoutChangeListener(this);
@@ -85,17 +95,31 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
             }
         });
 
-        _toggle_negative.setOnClickListener(new View.OnClickListener() {
+        _toggle_negative_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggleEffect(Camera.Parameters.EFFECT_NEGATIVE);
             }
         });
 
-        _toggle_mono.setOnClickListener(new View.OnClickListener() {
+        _toggle_mono_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggleEffect(Camera.Parameters.EFFECT_MONO);
+            }
+        });
+
+        _contrast_plus_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContrast(_actual_contrast + 1);
+            }
+        });
+
+        _contrast_minus_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContrast(_actual_contrast - 1);
             }
         });
 
@@ -137,6 +161,23 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
         _camera.setParameters(parameters);
 
         _actual_zoom = nextZoom;
+    }
+
+    private void setContrast(int nextContrast) {
+        if (_camera == null)
+            return;
+
+        Camera.Parameters parameters = _camera.getParameters();
+        if (nextContrast <= parameters.getMinExposureCompensation())
+            return;
+
+        if (nextContrast >= parameters.getMaxExposureCompensation())
+            return;
+
+        parameters.setExposureCompensation(nextContrast);
+        _camera.setParameters(parameters);
+
+        _actual_contrast = nextContrast;
     }
 
     private int GetCameraIndex()
