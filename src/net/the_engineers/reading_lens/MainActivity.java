@@ -239,7 +239,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
         super.onPause();
 
         _camera.release();
-        _cameraRunning = true;
+        _cameraRunning = false;
     }
 
     @Override
