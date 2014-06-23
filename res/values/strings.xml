@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Reading Lens</string>
+    <string name="toggle_negative">Negative</string>
+    <string name="toggle_mono">B/W</string>
 </resources>

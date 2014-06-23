@@ -26,22 +26,22 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.IOException;
-import java.util.List;
 
 public class MainActivity extends Activity implements SurfaceHolder.Callback, View.OnLayoutChangeListener {
 
     public static final int ZOOM_STEPS = 10;
-    SurfaceView _image;
+    private SurfaceView _image;
 
     private Camera _camera;
     private SurfaceHolder _surfaceHolder;
     private int _height;
     private int _width;
     private boolean _cameraRunning;
-    private Button _toogle_negative;
+    private Button _toggle_negative;
 
     private Button _zoom_plus_button;
     private Button _zoom_minus_button;
+    private Button _toggle_mono;
     private int _actual_zoom;
 
     /**
@@ -52,18 +52,28 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-
         _actual_zoom = 0;
 
         getActionBar().hide();
 
         _zoom_minus_button = (Button)findViewById(R.id.zoom_minus);
         _zoom_plus_button = (Button)findViewById(R.id.zoom_plus);
+        _toggle_mono = (Button)findViewById(R.id.toggle_mono);
+        _toggle_negative =(Button)findViewById(R.id.toggle_negative);
 
+        _image = (SurfaceView)findViewById(R.id.image);
+        _image.addOnLayoutChangeListener(this);
+
+        _surfaceHolder =  _image.getHolder();
+        _surfaceHolder.addCallback(this);
+
+        setButtonHandlers();
+    }
+
+    private void setButtonHandlers() {
         _zoom_plus_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 setZoom(_actual_zoom + ZOOM_STEPS);
             }
         });
@@ -71,41 +81,45 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, Vi
         _zoom_minus_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 setZoom(_actual_zoom - ZOOM_STEPS);
             }
         });
 
-        _image = (SurfaceView)findViewById(R.id.image);
-        _image.addOnLayoutChangeListener(this);
+        _toggle_negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleEffect(Camera.Parameters.EFFECT_NEGATIVE);
+            }
+        });
+
+        _toggle_mono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleEffect(Camera.Parameters.EFFECT_MONO);
+            }
+        });
+
         _image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 _camera.autoFocus(new Camera.AutoFocusCallback() {
                     @Override
                     public void onAutoFocus(boolean success, Camera camera) {
-
                     }
                 });
             }
         });
-        _surfaceHolder =  _image.getHolder();
-        _surfaceHolder.addCallback(this);
+    }
 
-        _toogle_negative =(Button)findViewById(R.id.toogle_negative);
-        _toogle_negative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Camera.Parameters parameters = _camera.getParameters();
+    private void toggleEffect(String effect) {
+        Camera.Parameters parameters = _camera.getParameters();
 
-                if (parameters.getColorEffect().contains(Camera.Parameters.EFFECT_NEGATIVE))
-                    parameters.setColorEffect(Camera.Parameters.EFFECT_NONE);
-                else
-                    parameters.setColorEffect(Camera.Parameters.EFFECT_NEGATIVE);
+        if (parameters.getColorEffect().contains(effect))
+            parameters.setColorEffect(Camera.Parameters.EFFECT_NONE);
+        else
+            parameters.setColorEffect(effect);
 
-                _camera.setParameters(parameters);
-            }
-        });
+        _camera.setParameters(parameters);
     }
 
     private void setZoom(int nextZoom) {

@@ -16,10 +16,25 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_alignParentTop="true">
-        <Button android:id="@+id/toogle_negative"
-                android:layout_width="fill_parent"
+
+        <View android:id="@+id/strut"
+              android:layout_width="0dp"
+              android:layout_height="0dp"
+              android:layout_centerHorizontal="true"/>
+
+        <Button android:id="@+id/toggle_negative"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Negative Toogle"/>
+                android:text="@string/toggle_negative"
+                android:layout_alignRight="@id/strut"
+                android:layout_alignParentLeft="true"/>
+
+        <Button android:id="@+id/toggle_mono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/toggle_mono"
+                android:layout_alignLeft="@id/strut"
+                android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
     <RelativeLayout android:layout_width="fill_parent"
