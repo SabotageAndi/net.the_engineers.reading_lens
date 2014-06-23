@@ -12,32 +12,30 @@
                  android:layout_weight="1"/>
 
 
-    <RelativeLayout android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_alignParentTop="true">
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_alignParentTop="true"
+                  android:weightSum="2">
 
-        <View android:id="@+id/strut"
-              android:layout_width="0dp"
-              android:layout_height="0dp"
-              android:layout_centerHorizontal="true"/>
 
         <Button android:id="@+id/toggle_negative"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/toggle_negative"
-                android:layout_alignRight="@id/strut"
-                android:layout_alignParentLeft="true"/>
+                android:layout_weight="1"
+                />
 
         <Button android:id="@+id/toggle_mono"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/toggle_mono"
-                android:layout_alignLeft="@id/strut"
-                android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+                android:layout_weight="1"
+                />
+    </LinearLayout>
 
-    <RelativeLayout android:layout_width="fill_parent"
+  <!--
+   <RelativeLayout android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_alignParentBottom="true">
@@ -61,5 +59,32 @@
                 />
 
     </RelativeLayout>
+    -->
+    <LinearLayout android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentBottom="true"
+                    android:weightSum="4">
+
+        <Button android:id="@+id/placeholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Placeholder"
+                android:layout_weight="2"
+                />
+        <Button android:id="@+id/zoom_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:layout_weight="1"
+                />
+        <Button android:id="@+id/zoom_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:layout_weight="1"
+                />
+
+    </LinearLayout>
 </RelativeLayout>
 
